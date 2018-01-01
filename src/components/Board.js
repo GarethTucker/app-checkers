@@ -7,19 +7,20 @@ const Board = ({myBoard}) => {
   let button = null;
 
   for(let i=0; i<8; i++) {
-      let row = []
-      for(let j=0; j<8; j++) {
+    let row = []
+    for(let j=0; j<8; j++) {
 
-        if(i % 2 == j % 2) {
-          button = <button className="square" style={blueStyle}></button>
-        }
-        else {
-          button = <button className="square" style={greenStyle}></button>
-        }
-        row.push(button)
+      if(i % 2 == j % 2) {
+        button = <button className="square" style={blueStyle}></button>
       }
-      grid.push(row)
+      else {
+        button = <button className="square" style={greenStyle}></button>
+      }
+      row.push(button)
     }
+    grid.push(row)
+  }
+
   return(
     <div>
       <h2>BOARD</h2>
@@ -46,8 +47,7 @@ const Board = ({myBoard}) => {
       </div>
       <div className="board-row">
         { grid[7] }
-      </div>
-      
+      </div>      
     </div>
   );
 }
