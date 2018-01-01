@@ -1,6 +1,12 @@
-import React, {Component} from 'react';
-import {bindActionCreators} from 'redux';
+import React from 'react';
 import {connect} from 'react-redux';
+
+function getStyle(i, j, myBoard){
+  return {
+    backgroundColor: i % 2 === j % 2 ? 'blue' :'green',
+    // border: myBoard[i][j] === undefined ? '2px solid black' : '2px solid red'
+   }
+}
 
 const Board = ({myBoard}) => {
   let grid = []
@@ -9,13 +15,11 @@ const Board = ({myBoard}) => {
   for(let i=0; i<8; i++) {
     let row = []
     for(let j=0; j<8; j++) {
-
-      if(i % 2 == j % 2) {
-        button = <button className="square" style={blueStyle}></button>
-      }
-      else {
-        button = <button className="square" style={greenStyle}></button>
-      }
+      button = <button 
+        className="square" 
+        style={getStyle(i, j, myBoard)} 
+        onClick={() => handleClick(i, j, myBoard)}>
+      </button>
       row.push(button)
     }
     grid.push(row)
@@ -52,12 +56,10 @@ const Board = ({myBoard}) => {
   );
 }
 
-const blueStyle = {
-  backgroundColor: 'blue'
-}
-
-const greenStyle = {
-  backgroundColor: 'green'
+function handleClick(i, j, myBoard){
+  console.log(i + ":" + j)
+  let row = myBoard[i];
+  console.log(row[j])
 }
 
 function mapStateToProps(state) {

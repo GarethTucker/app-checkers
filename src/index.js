@@ -7,23 +7,30 @@ import checkersApp from './reducers'
 
 const store = createStore(checkersApp,
   { board: [
-      {
-        a: {
-          2: "black",
-          4: "black"
-        }
-      },
-      {
-        b: {
-          1: "black"
-        }
-      },
-      {
-        c: {
-          2: "black",
-          4: "black"
-        }
-      }
+        [
+          {0: null},
+          {1: "black"},
+          {2: null},
+          {3: "black"},
+          {4: null},
+          {5: "black"},
+          {6: null},
+          {7: "black"}
+        ]
+      ,
+        [
+          {0: "black"},
+          {1: null},
+          {2: "black"},
+          {3: null}
+        ]
+      ,
+        [
+          {0: null},
+          {1: "black"},
+          {2: null},
+          {3: "black"}
+        ]
     ]
   });
 
