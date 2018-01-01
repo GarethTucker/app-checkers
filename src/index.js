@@ -8,28 +8,28 @@ import checkersApp from './reducers'
 const store = createStore(checkersApp,
   { board: [
         [
-          {0: null},
-          {1: "black"},
-          {2: null},
-          {3: "black"},
-          {4: null},
-          {5: "black"},
-          {6: null},
-          {7: "black"}
+          {piece: null},
+          {piece: "black"},
+          {piece: null},
+          {piece: "black"},
+          {piece: null},
+          {piece: "black"},
+          {piece: null},
+          {piece: "black"}
         ]
       ,
         [
-          {0: "black"},
-          {1: null},
-          {2: "black"},
-          {3: null}
+          {piece: "black"},
+          {piece: null},
+          {piece: "black"},
+          {piece: null}
         ]
       ,
         [
-          {0: null},
-          {1: "black"},
-          {2: null},
-          {3: "black"}
+          {piece: null},
+          {piece: "black"},
+          {piece: null},
+          {piece: "black"}
         ]
     ]
   });

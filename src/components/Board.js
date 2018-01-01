@@ -2,13 +2,23 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 function getStyle(i, j, myBoard){
+  let row = myBoard[i]
+  if(row){
+    let square = myBoard[i][j]
+    if(square){
+      return {
+        backgroundColor: i % 2 === j % 2 ? 'blue' :'green',
+        border: square.piece ? '2px solid black' : '2px solid red'
+      }
+    }
+  }
   return {
-    backgroundColor: i % 2 === j % 2 ? 'blue' :'green',
-    // border: myBoard[i][j] === undefined ? '2px solid black' : '2px solid red'
-   }
+    backgroundColor: i % 2 === j % 2 ? 'blue' :'green'
+  }
 }
 
 const Board = ({myBoard}) => {
+  console.log(myBoard)
   let grid = []
   let button = null;
 
