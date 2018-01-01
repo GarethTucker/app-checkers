@@ -3,10 +3,29 @@ import { render } from 'react-dom'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import App from './components/App'
-import reducer from './reducers'
+import checkersApp from './reducers'
 
-
-const store = createStore(reducer)
+const store = createStore(checkersApp,
+  { board: [
+      {
+        a: {
+          2: "black",
+          4: "black"
+        }
+      },
+      {
+        b: {
+          1: "black"
+        }
+      },
+      {
+        c: {
+          2: "black",
+          4: "black"
+        }
+      }
+    ]
+  });
 
 render(
   <Provider store={store}>
