@@ -2,18 +2,10 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 function getStyle(i, j, myBoard){
-  let row = myBoard[i]
-  if(row){
-    let square = myBoard[i][j]
-    if(square){
-      return {
-        backgroundColor: i % 2 === j % 2 ? 'blue' :'green',
-        border: square.piece ? '2px solid black' : '2px solid red'
-      }
-    }
-  }
   return {
-    backgroundColor: i % 2 === j % 2 ? 'blue' :'green'
+        backgroundColor: i % 2 === j % 2 ? 'blue' :'green',
+        border: '3px solid black'
+        // border: square.piece ? '3px solid black' : '3px solid red'
   }
 }
 
@@ -21,14 +13,28 @@ const Board = ({myBoard}) => {
   console.log(myBoard)
   let grid = []
   let button = null;
+  
 
   for(let i=0; i<8; i++) {
     let row = []
     for(let j=0; j<8; j++) {
+      let row1 = myBoard[i]
+      let imageSrc = null
+      if(row1){
+        let square = myBoard[i][j]
+        if(square){
+          if(square.piece === "black"){
+           imageSrc = "https://lh5.ggpht.com/K3F-iniKTYk-ZZZI6I2UWe64TqBQrjDEtlqTqu87d6xk7rJvX6ZMcXWa1NSRl7TSAw=w300"
+          } else if (square.piece === "red"){
+            imageSrc = "http://bristle.com/~michael/red-checker.png"  
+          }
+        }
+      }
       button = <button 
         className="square" 
         style={getStyle(i, j, myBoard)} 
-        onClick={() => handleClick(i, j, myBoard)}>
+        onClick={() => handleClick(i, j, myBoard)}>        
+        <img src={imageSrc} width="20" height="20" />
       </button>
       row.push(button)
     }

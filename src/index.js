@@ -22,6 +22,10 @@ const store = createStore(checkersApp,
           {piece: "black"},
           {piece: null},
           {piece: "black"},
+          {piece: null},
+          {piece: "black"},
+          {piece: null},
+          {piece: "black"},
           {piece: null}
         ]
       ,
@@ -29,7 +33,66 @@ const store = createStore(checkersApp,
           {piece: null},
           {piece: "black"},
           {piece: null},
+          {piece: "black"},
+          {piece: null},
+          {piece: "black"},
+          {piece: null},
           {piece: "black"}
+        ]
+      ,
+        [
+          {piece: null},
+          {piece: null},
+          {piece: null},
+          {piece: null},
+          {piece: null},
+          {piece: null},
+          {piece: null},
+          {piece: null}
+        ]
+      ,
+        [
+          {piece: null},
+          {piece: null},
+          {piece: null},
+          {piece: null},
+          {piece: null},
+          {piece: null},
+          {piece: null},
+          {piece: null}
+        ]
+      ,
+        [
+          {piece: "red"},
+          {piece: null},
+          {piece: "red"},
+          {piece: null},
+          {piece: "red"},
+          {piece: null},
+          {piece: "red"},
+          {piece: null}
+        ]
+      ,
+        [
+          {piece: null},
+          {piece: "red"},
+          {piece: null},
+          {piece: "red"},
+          {piece: null},
+          {piece: "red"},
+          {piece: null},
+          {piece: "red"}
+        ]
+      ,
+        [
+          {piece: "red"},
+          {piece: null},
+          {piece: "red"},
+          {piece: null},
+          {piece: "red"},
+          {piece: null},
+          {piece: "red"},
+          {piece: null}
         ]
     ]
   });
