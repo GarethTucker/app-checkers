@@ -30,7 +30,7 @@ function buildGrid(myBoard, selectSquare){
       button = <button 
         className="square" 
         style={getStyle(i, j, myBoard)} 
-        onClick={selectSquare(i, j)}>   
+        onClick={() => selectSquare(i, j)}>   
         <img src={imageSrc} width="20" height="20" />    
       </button>
       htmlrow.push(button)
