@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
-import SelectSquare1 from './reducer-select-square';
-import Board from './reducer-board';
+import selection from './selection';
+import board from './board';
 const checkersApp = combineReducers({
-  selectSquare: SelectSquare1,
-  board: Board
-  })
+  selection,
+  board
+})
 
-  export default checkersApp
+export default checkersApp
