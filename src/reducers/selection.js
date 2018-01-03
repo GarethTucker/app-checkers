@@ -1,9 +1,9 @@
-export default function(state=null, action){
+export default function(state={ selection: null }, action){
     
         switch(action.type){
             case "SELECT_SQUARE":
                 console.log(action.payload)
-                return action.payload
+                return { selection: action.payload }
         }
         return state;
     }

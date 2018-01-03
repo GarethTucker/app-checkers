@@ -1,8 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-function getStyle(i, j, myBoard){
+function getStyle(i, j, myBoard, selection){
   let boarderStyle = '2px solid black'
+  if(selection && selection.row === i && selection.column === j){
+    boarderStyle = '2px solid red'
+  }
   return {
         backgroundColor: i % 2 === j % 2 ? 'blue' :'green',
         border: boarderStyle
@@ -10,7 +13,7 @@ function getStyle(i, j, myBoard){
   }
 }
 
-function buildGrid(myBoard, selectSquare){
+function buildGrid(myBoard, selectSquare, selection){
   let grid = []
   let button = null;
   for(let i=0; i<8; i++) {
@@ -25,7 +28,7 @@ function buildGrid(myBoard, selectSquare){
       }
       button = <button 
         className="square" 
-        style={getStyle(i, j, myBoard)} 
+        style={getStyle(i, j, myBoard, selection)} 
         onClick={() => selectSquare(i, j)}>   
         <img src={imageSrc} width="20" height="20" />    
       </button>
@@ -37,7 +40,6 @@ function buildGrid(myBoard, selectSquare){
 }
 
 const Board = ({myBoard, selectSquare}) => {
-  console.log(myBoard)
   let grid = buildGrid(myBoard, selectSquare)
 
   return(
@@ -73,7 +75,8 @@ const Board = ({myBoard, selectSquare}) => {
 
 function mapStateToProps(state) {
     return {
-      myBoard: state.board
+      myBoard: state.board,
+      selection: state.selection
     }
 }
 
