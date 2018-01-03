@@ -4,27 +4,24 @@ import {connect} from 'react-redux';
 function getStyle(i, j, myBoard){
   return {
         backgroundColor: i % 2 === j % 2 ? 'blue' :'green',
-        border: '3px solid black'
+        border: '2px solid black'
         // border: square.piece ? '3px solid black' : '3px solid red'
   }
 }
 
-const Board = ({myBoard}) => {
-  console.log(myBoard)
+function buildGrid(myBoard, selectSquare){
   let grid = []
   let button = null;
-  
-
   for(let i=0; i<8; i++) {
-    let row = []
+    let htmlrow = []
     for(let j=0; j<8; j++) {
-      let row1 = myBoard[i]
+      let boardrow = myBoard[i]
       let imageSrc = null
-      if(row1){
+      if(boardrow){
         let square = myBoard[i][j]
         if(square){
           if(square.piece === "black"){
-           imageSrc = "https://lh5.ggpht.com/K3F-iniKTYk-ZZZI6I2UWe64TqBQrjDEtlqTqu87d6xk7rJvX6ZMcXWa1NSRl7TSAw=w300"
+            imageSrc = "https://lh5.ggpht.com/K3F-iniKTYk-ZZZI6I2UWe64TqBQrjDEtlqTqu87d6xk7rJvX6ZMcXWa1NSRl7TSAw=w300"
           } else if (square.piece === "red"){
             imageSrc = "http://bristle.com/~michael/red-checker.png"  
           }
@@ -33,13 +30,19 @@ const Board = ({myBoard}) => {
       button = <button 
         className="square" 
         style={getStyle(i, j, myBoard)} 
-        onClick={() => handleClick(i, j, myBoard)}>        
-        <img src={imageSrc} width="20" height="20" />
+        onClick={selectSquare(i, j)}>   
+        <img src={imageSrc} width="20" height="20" />    
       </button>
-      row.push(button)
+      htmlrow.push(button)
     }
-    grid.push(row)
+    grid.push(htmlrow)
   }
+  return grid
+}
+
+const Board = ({myBoard, selectSquare}) => {
+  console.log(myBoard)
+  let grid = buildGrid(myBoard, selectSquare)
 
   return(
     <div>
@@ -69,13 +72,7 @@ const Board = ({myBoard}) => {
         { grid[7] }
       </div>      
     </div>
-  );
-}
-
-function handleClick(i, j, myBoard){
-  console.log(i + ":" + j)
-  let row = myBoard[i];
-  console.log(row[j])
+  ); 
 }
 
 function mapStateToProps(state) {
@@ -86,9 +83,14 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    mtoggle: function() {
+    selectSquare: function(i,j) {
+      let payload = {
+        row: i,
+        column: j
+      }
       const action = {
-        type: "TOGGLE_DIAGNOSTIC"
+        type: "SELECT_SQUARE",
+        payload: payload
       };
       dispatch(action);
     }
