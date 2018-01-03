@@ -2,9 +2,10 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 function getStyle(i, j, myBoard){
+  let boarderStyle = '2px solid black'
   return {
         backgroundColor: i % 2 === j % 2 ? 'blue' :'green',
-        border: '2px solid black'
+        border: boarderStyle
         // border: square.piece ? '3px solid black' : '3px solid red'
   }
 }
@@ -13,19 +14,14 @@ function buildGrid(myBoard, selectSquare){
   let grid = []
   let button = null;
   for(let i=0; i<8; i++) {
-    let htmlrow = []
+    let row = []
     for(let j=0; j<8; j++) {
-      let boardrow = myBoard[i]
       let imageSrc = null
-      if(boardrow){
-        let square = myBoard[i][j]
-        if(square){
-          if(square.piece === "black"){
-            imageSrc = "https://lh5.ggpht.com/K3F-iniKTYk-ZZZI6I2UWe64TqBQrjDEtlqTqu87d6xk7rJvX6ZMcXWa1NSRl7TSAw=w300"
-          } else if (square.piece === "red"){
-            imageSrc = "http://bristle.com/~michael/red-checker.png"  
-          }
-        }
+      let square = myBoard[i][j]
+      if(square.piece === "black"){
+        imageSrc = "https://lh5.ggpht.com/K3F-iniKTYk-ZZZI6I2UWe64TqBQrjDEtlqTqu87d6xk7rJvX6ZMcXWa1NSRl7TSAw=w300"
+      } else if (square.piece === "red"){
+        imageSrc = "http://bristle.com/~michael/red-checker.png"  
       }
       button = <button 
         className="square" 
@@ -33,9 +29,9 @@ function buildGrid(myBoard, selectSquare){
         onClick={() => selectSquare(i, j)}>   
         <img src={imageSrc} width="20" height="20" />    
       </button>
-      htmlrow.push(button)
+      row.push(button)
     }
-    grid.push(htmlrow)
+    grid.push(row)
   }
   return grid
 }
