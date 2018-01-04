@@ -4,6 +4,7 @@ export default function(state={ selection: null }, action){
             case "SELECT_SQUARE":
                 console.log(action.payload)
                 return { selection: action.payload }
+                break
         }
         return state;
     }

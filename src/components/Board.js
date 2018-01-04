@@ -1,15 +1,16 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {selectSquare} from '../actions/index';
 
 function getStyle(i, j, myBoard, selection){
   let boarderStyle = '2px solid black'
+  console.log(selection)
   if(selection && selection.row === i && selection.column === j){
     boarderStyle = '2px solid red'
   }
   return {
         backgroundColor: i % 2 === j % 2 ? 'blue' :'green',
         border: boarderStyle
-        // border: square.piece ? '3px solid black' : '3px solid red'
   }
 }
 
@@ -80,20 +81,22 @@ function mapStateToProps(state) {
     }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    selectSquare: function(i,j) {
-      let payload = {
-        row: i,
-        column: j
-      }
-      const action = {
-        type: "SELECT_SQUARE",
-        payload: payload
-      };
-      dispatch(action);
-    }
-  }
-}
+const mapDispatchToProps = {selectSquare: selectSquare}
+
+// function mapDispatchToProps(dispatch) {
+//   return {
+//     selectSquare: function(i,j) {
+//       let payload = {
+//         row: i,
+//         column: j
+//       }
+//       const action = {
+//         type: "SELECT_SQUARE",
+//         payload: payload
+//       };
+//       dispatch(action);
+//     }
+//   }
+// }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Board);
