@@ -1,49 +1,28 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {selectSquare} from '../actions/index';
+import Square from './Square'
+import {selectSquare, deselectSquare, moveTo} from '../actions/index';
 
-function getStyle(i, j, myBoard, selection){
-  let boarderStyle = '2px solid black'
-  console.log(selection)
-  if(selection && selection.row === i && selection.column === j){
-    boarderStyle = '2px solid red'
-  }
-  return {
-        backgroundColor: i % 2 === j % 2 ? 'blue' :'green',
-        border: boarderStyle
-  }
-}
-
-function buildGrid(myBoard, selectSquare, selection){
-  let grid = []
-  let button = null;
+function buildGrid(props){
+  const grid = []
   for(let i=0; i<8; i++) {
-    let row = []
+    const row = []
     for(let j=0; j<8; j++) {
-      let imageSrc = null
-      let square = myBoard[i][j]
-      if(square.piece === "black"){
-        imageSrc = "https://lh5.ggpht.com/K3F-iniKTYk-ZZZI6I2UWe64TqBQrjDEtlqTqu87d6xk7rJvX6ZMcXWa1NSRl7TSAw=w300"
-      } else if (square.piece === "red"){
-        imageSrc = "http://bristle.com/~michael/red-checker.png"  
-      }
-      button = <button 
+      row.push(<Square 
+        {...props} 
+        i={i} 
+        j={j} 
         key={`${i}_${j}`}
-        className="square" 
-        onClick={() => selectSquare(i, j)} 
-        style={getStyle(i, j, myBoard, selection)}> 
-        {imageSrc && <img src={imageSrc} width="20" height="20" alt=""/>}    
-      </button>
-      row.push(button)
+      />)
     }
     grid.push(row)
   }
   return grid
 }
 
-const Board = ({myBoard, selectSquare, selection}) => {
+const Board = (props) => {
   
-  let grid = buildGrid(myBoard, selectSquare, selection)
+  let grid = buildGrid(props)
 
   return(
     <div>
@@ -84,6 +63,10 @@ function mapStateToProps(state) {
     }
 }
 
-const mapDispatchToProps = {selectSquare: selectSquare}
+const mapDispatchToProps = {
+  selectSquare,
+  moveTo,
+  deselectSquare
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Board);

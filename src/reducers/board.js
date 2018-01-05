@@ -1,91 +1,19 @@
 const defaultState = [
-      [
-        {piece: null},
-        {piece: "black"},
-        {piece: null},
-        {piece: "black"},
-        {piece: null},
-        {piece: "black"},
-        {piece: null},
-        {piece: "black"}
-      ]
+      [ null, "black",  null, "black", null, "black", null, "black" ]
     ,
-      [
-        {piece: "black"},
-        {piece: null},
-        {piece: "black"},
-        {piece: null},
-        {piece: "black"},
-        {piece: null},
-        {piece: "black"},
-        {piece: null}
-      ]
+      [ "black",  null, "black", null, "black", null, "black", null ]
     ,
-      [
-        {piece: null},
-        {piece: "black"},
-        {piece: null},
-        {piece: "black"},
-        {piece: null},
-        {piece: "black"},
-        {piece: null},
-        {piece: "black"}
-      ]
+      [ null, "black",  null, "black", null, "black", null, "black" ]
     ,
-      [
-        {piece: null},
-        {piece: null},
-        {piece: null},
-        {piece: null},
-        {piece: null},
-        {piece: null},
-        {piece: null},
-        {piece: null}
-      ]
+      [ null, null, null, null, null, null, null, null ]
     ,
-      [
-        {piece: null},
-        {piece: null},
-        {piece: null},
-        {piece: null},
-        {piece: null},
-        {piece: null},
-        {piece: null},
-        {piece: null}
-      ]
+      [ null, null, null, null, null, null, null, null ]
     ,
-      [
-        {piece: "red"},
-        {piece: null},
-        {piece: "red"},
-        {piece: null},
-        {piece: "red"},
-        {piece: null},
-        {piece: "red"},
-        {piece: null}
-      ]
+      [ "red", null, "red", null, "red", null, "red", null ]
     ,
-      [
-        {piece: null},
-        {piece: "red"},
-        {piece: null},
-        {piece: "red"},
-        {piece: null},
-        {piece: "red"},
-        {piece: null},
-        {piece: "red"}
-      ]
+      [ null, "red", null, "red", null, "red", null, "red" ]
     ,
-      [
-        {piece: "red"},
-        {piece: null},
-        {piece: "red"},
-        {piece: null},
-        {piece: "red"},
-        {piece: null},
-        {piece: "red"},
-        {piece: null}
-      ]
+      [ "red", null, "red", null, "red", null, "red", null ]
   ];
 
 export default function(state=defaultState, action){
