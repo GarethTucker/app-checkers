@@ -16,6 +16,14 @@ const defaultState = [
       [ "red", null, "red", null, "red", null, "red", null ]
   ];
 
-export default function(state=defaultState, action){
-  return state;
+export default function(state=defaultState, {type, payload}){
+  switch(type){
+    case "MOVE_TO":
+        const newState = [...state];
+        const {row, column} = payload;
+        newState[row][column] = "red";
+        return newState;
+    default:
+        return state
+  }
 }
