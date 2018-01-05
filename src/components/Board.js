@@ -2,20 +2,21 @@ import React from 'react';
 import {connect} from 'react-redux';
 import Square from './Square'
 import {selectSquare, deselectSquare, moveTo} from '../actions/index';
+import { getBoardExtended } from '../reducers/index';
 
 function buildGrid(props){
   const grid = []
-  for(let i=0; i<8; i++) {
-    const row = []
-    for(let j=0; j<8; j++) {
-      row.push(<Square 
+  for(let row=0; row<8; row++) {
+    const rowArray = []
+    for(let col=0; col<8; col++) {
+      rowArray.push(<Square 
         {...props} 
-        i={i} 
-        j={j} 
-        key={`${i}_${j}`}
+        row={row} 
+        col={col} 
+        key={`${row}_${col}`}
       />)
     }
-    grid.push(row)
+    grid.push(rowArray)
   }
   return grid
 }
@@ -58,7 +59,8 @@ const Board = (props) => {
 function mapStateToProps(state) {
  
     return {
-      myBoard: state.board,
+      // myBoard: state.board,
+      myBoard: getBoardExtended(state),
       selection: state.selection
     }
 }

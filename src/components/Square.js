@@ -6,49 +6,39 @@ const boarderStyles = {
     DEFAULT: '2px solid black'
 }
 
-function getStyle(i, j, mode){    
+function getStyle(row, col, mode){    
     return {
-          backgroundColor: i % 2 === j % 2 ? 'blue' :'green',
-          border: boarderStyles[mode]
+            backgroundColor: row % 2 === col % 2 ? 'blue' :'green',
+            border: boarderStyles[mode]
     }
-  }
-
-function getMode(i, j, selection){
-    if(selection && selection.row === i && selection.column === j){
-       return "SELECTED"
-    } 
-    if (selection) {
-        return "AVAILABLE"
-    }
-    return "DEFAULT";
 }
 
-function createOnClick({i, j, selectSquare, deselectSquare, moveTo}, mode){
+function createOnClick({row, col, selectSquare, deselectSquare, moveTo}, mode){
     if(mode === 'DEFAULT'){
-        return () => selectSquare(i, j)
+        return () => selectSquare(row, col)
     }
     if(mode === 'SELECTED'){
         return () => deselectSquare()
     }
     if(mode === 'AVAILABLE'){
-        return () => moveTo(i,j)
+        return () => moveTo(row,col)
     }
 }
 
 export default (props) => {
-    const {i, j, myBoard, selection} = props;
+    const {row, col, myBoard, selection} = props;
     let imageSrc = null
-    let square = myBoard[i][j]
-    if(square === "black"){
+    // let square = myBoard[row][col]
+    let {color,mode} = myBoard[row][col]
+    if(color === "black"){
       imageSrc = "https://lh5.ggpht.com/K3F-iniKTYk-ZZZI6I2UWe64TqBQrjDEtlqTqu87d6xk7rJvX6ZMcXWa1NSRl7TSAw=w300"
-    } else if (square === "red"){
+    } else if (color === "red"){
       imageSrc = "http://bristle.com/~michael/red-checker.png"  
     }
-    let mode = getMode(i, j, selection)
     return <button 
       className="square" 
       onClick={createOnClick(props, mode)} 
-      style={getStyle(i, j, mode)}> 
+      style={getStyle(row, col, mode)}> 
       {imageSrc && <img src={imageSrc} width="20" height="20" alt=""/>}    
     </button>
 }
