@@ -1,10 +1,8 @@
-export default function(state={ selection: null }, action){
-    
-        switch(action.type){
-            case "SELECT_SQUARE":
-                console.log(action.payload)
-                return { selection: action.payload }
-                break
-        }
-        return state;
+export default function(state=null, action){
+    switch(action.type){
+        case "SELECT_SQUARE":
+            return action.payload
+        default:
+            return state
     }
+}

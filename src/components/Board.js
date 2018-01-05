@@ -28,10 +28,11 @@ function buildGrid(myBoard, selectSquare, selection){
         imageSrc = "http://bristle.com/~michael/red-checker.png"  
       }
       button = <button 
+        key={`${i}_${j}`}
         className="square" 
-        style={getStyle(i, j, myBoard, selection)} 
-        onClick={() => selectSquare(i, j)}>   
-        <img src={imageSrc} width="20" height="20" />    
+        onClick={() => selectSquare(i, j)} 
+        style={getStyle(i, j, myBoard, selection)}> 
+        {imageSrc && <img src={imageSrc} width="20" height="20" alt=""/>}    
       </button>
       row.push(button)
     }
@@ -40,8 +41,9 @@ function buildGrid(myBoard, selectSquare, selection){
   return grid
 }
 
-const Board = ({myBoard, selectSquare}) => {
-  let grid = buildGrid(myBoard, selectSquare)
+const Board = ({myBoard, selectSquare, selection}) => {
+  
+  let grid = buildGrid(myBoard, selectSquare, selection)
 
   return(
     <div>
@@ -75,6 +77,7 @@ const Board = ({myBoard, selectSquare}) => {
 }
 
 function mapStateToProps(state) {
+ 
     return {
       myBoard: state.board,
       selection: state.selection
@@ -82,21 +85,5 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {selectSquare: selectSquare}
-
-// function mapDispatchToProps(dispatch) {
-//   return {
-//     selectSquare: function(i,j) {
-//       let payload = {
-//         row: i,
-//         column: j
-//       }
-//       const action = {
-//         type: "SELECT_SQUARE",
-//         payload: payload
-//       };
-//       dispatch(action);
-//     }
-//   }
-// }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Board);
