@@ -26,7 +26,7 @@ function createOnClick({row, col, selectSquare, deselectSquare, moveTo}, mode){
 }
 
 export default (props) => {
-    const {row, col, myBoard, selection} = props;
+    const {row, col, myBoard} = props;
     let imageSrc = null
     // let square = myBoard[row][col]
     let {color,mode} = myBoard[row][col]
