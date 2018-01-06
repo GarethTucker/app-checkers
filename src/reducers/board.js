@@ -22,6 +22,7 @@ export default function(state=defaultState, {type, payload}, selection){
         const newState = [...state];
         const {row, column} = payload;
         newState[row][column] = state[selection.row][selection.column];
+        newState[selection.row][selection.column] = null
         return newState;
     default:
         return state

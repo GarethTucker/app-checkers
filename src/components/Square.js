@@ -2,7 +2,8 @@ import React from 'react';
 
 const boarderStyles = {
     SELECTED: '2px solid red',
-    AVAILABLE: '2px solid yellow',
+    AVAILABLE_SIMPLE: '2px solid yellow',
+    AVAILABLE_CAPTURE: '2px solid yellow',
     DEFAULT: '2px solid black'
 }
 
@@ -20,7 +21,10 @@ function createOnClick({row, col, selectSquare, deselectSquare, moveTo}, mode){
     if(mode === 'SELECTED'){
         return () => deselectSquare()
     }
-    if(mode === 'AVAILABLE'){
+    if(mode === 'AVAILABLE_SIMPLE'){
+        return () => moveTo(row,col)
+    }
+    if(mode === 'AVAILABLE_CAPTURE'){
         return () => moveTo(row,col)
     }
 }

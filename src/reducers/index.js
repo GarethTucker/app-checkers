@@ -37,27 +37,35 @@ export const getBoardExtended = (state) => {
 }
 
 function getMode(row, col, selection, currentColor, currentBoard){
-  if(selection && selection.row === row && selection.column === col){
-     return "SELECTED"
-  } 
-  if (selection && isAvailable(row, col, selection, currentColor, currentBoard)) {
-      return "AVAILABLE"
+  if(selection){
+    if(selection.row === row && selection.column === col){
+      return "SELECTED"
+    } 
+    let selectedColor = currentBoard[selection.row][selection.column]
+    const simpleMove = diagonalPlusOne(row, col, selection, selectedColor, currentBoard)
+    if (simpleMove) {
+      return "AVAILABLE_SIMPLE"
+    }
+    const capture = diagonalPlusTwo(row, col, selection, selectedColor, currentBoard)
+    if (capture){
+      return "AVAILABLE_CAPTURE"
+    }
   }
   return "DEFAULT";
 }
 
-function isAvailable(row, col, selection, currentColor, currentBoard){
-  let selectedColor = currentBoard[selection.row][selection.column]
-  let availableSpace = diagonalPlusOne(row, col, selection, selectedColor, currentBoard)
-  if(!availableSpace){
-    availableSpace = diagonalPlusTwo(row, col, selection, selectedColor, currentBoard)
-  }
-  if(availableSpace){
-    if(!currentBoard[availableSpace.row][availableSpace.col]){
-      return true
-    }
-  }
-}
+// function simpleMove(row, col, selection, currentColor, currentBoard){
+//   let selectedColor = currentBoard[selection.row][selection.column]
+//   let availableSpace = diagonalPlusOne(row, col, selection, selectedColor, currentBoard)
+  // if(!availableSpace){
+  //   availableSpace = diagonalPlusTwo(row, col, selection, selectedColor, currentBoard)
+  // }
+  // if(availableSpace){
+  //   if(!currentBoard[availableSpace.row][availableSpace.col]){
+  //     return true
+  //   }
+  // }
+// }
 
 function diagonalPlusOne(row, col, selection, selectedColor, currentBoard){
   let availableSpace = null;
@@ -76,7 +84,12 @@ function diagonalPlusOne(row, col, selection, selectedColor, currentBoard){
       availableSpace = {row: selection.row + 1, col: selection.column + 1}
     }
   }
-  return availableSpace
+  if(availableSpace){
+    if(!currentBoard[availableSpace.row][availableSpace.col]){
+      return availableSpace
+    }
+  }
+  // return availableSpace
 }
 
 function diagonalPlusTwo(row, col, selection, selectedColor, currentBoard){
