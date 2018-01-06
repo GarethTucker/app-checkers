@@ -49,8 +49,13 @@ function getMode(row, col, selection, currentColor, currentBoard){
 function isAvailable(row, col, selection, currentColor, currentBoard){
   let selectedColor = currentBoard[selection.row][selection.column]
   let availableSpace = diagonalPlusOne(row, col, selection, selectedColor, currentBoard)
+  if(!availableSpace){
+    availableSpace = diagonalPlusTwo(row, col, selection, selectedColor, currentBoard)
+  }
   if(availableSpace){
-    return !currentBoard[availableSpace.row][availableSpace.col]
+    if(!currentBoard[availableSpace.row][availableSpace.col]){
+      return true
+    }
   }
 }
 
@@ -69,6 +74,31 @@ function diagonalPlusOne(row, col, selection, selectedColor, currentBoard){
     }
     if(selection.row + 1 === row && selection.column + 1 === col){
       availableSpace = {row: selection.row + 1, col: selection.column + 1}
+    }
+  }
+  return availableSpace
+}
+
+function diagonalPlusTwo(row, col, selection, selectedColor, currentBoard){
+  let availableSpace = null;
+  if(selectedColor === "red" && currentBoard[selection.row - 1][selection.column - 1] === "black"){
+    if(selection.row - 2 === row && selection.column - 2 === col) {
+      availableSpace = {row: selection.row - 2, col: selection.column - 2}
+    }
+  }
+  if(selectedColor === "red" && currentBoard[selection.row - 1][selection.column + 1] === "black"){
+    if(selection.row - 2 === row && selection.column + 2 === col) {
+      availableSpace = {row: selection.row - 2, col: selection.column + 2}
+    }
+  }
+  if(selectedColor === "black" && currentBoard[selection.row + 1][selection.column - 1] === "red"){
+    if(selection.row + 2 === row && selection.column - 2 === col) {
+      availableSpace = {row: selection.row + 2, col: selection.column - 2}
+    }
+  }
+  if(selectedColor === "black" && currentBoard[selection.row + 1][selection.column + 1] === "red"){
+    if(selection.row + 2 === row && selection.column + 2 === col) {
+      availableSpace = {row: selection.row + 2, col: selection.column + 2}
     }
   }
   return availableSpace
