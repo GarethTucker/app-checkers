@@ -14,7 +14,7 @@ function getStyle(row, col, mode){
     }
 }
 
-function createOnClick({row, col, selectSquare, deselectSquare, moveTo}, mode){
+function createOnClick({row, col, selectSquare, deselectSquare, moveTo, capture}, mode){
     if(mode === 'DEFAULT'){
         return () => selectSquare(row, col)
     }
@@ -25,7 +25,7 @@ function createOnClick({row, col, selectSquare, deselectSquare, moveTo}, mode){
         return () => moveTo(row,col)
     }
     if(mode === 'AVAILABLE_CAPTURE'){
-        return () => moveTo(row,col)
+        return () => capture(row,col)
     }
 }
 

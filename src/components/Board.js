@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import Square from './Square'
-import {selectSquare, deselectSquare, moveTo} from '../actions/index';
+import {selectSquare, deselectSquare, moveTo, capture} from '../actions/index';
 import { getBoardExtended } from '../reducers/index';
 
 function buildGrid(props){
@@ -68,6 +68,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   selectSquare,
   moveTo,
+  capture,
   deselectSquare
 }
 

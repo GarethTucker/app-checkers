@@ -20,6 +20,17 @@ export const moveTo = (i,j) => {
     }
 };
 
+export const capture = (row, col) => {
+    let payload = {
+                row1: row,
+                column1: col
+              }
+    return{
+        type: "CAPTURE",
+        payload: payload 
+    }
+};
+
 export const deselectSquare = () => {
     
     return{
