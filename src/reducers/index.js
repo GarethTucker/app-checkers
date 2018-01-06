@@ -55,27 +55,29 @@ function getMode(row, col, selection, currentColor, currentBoard){
 }
 
 function diagonalPlusOne(row, col, selection, selectedColor, currentBoard){
-  let availableSpace = null;
-  if(selectedColor === "red"){
-    if(selection.row - 1 === row && selection.column - 1 === col) {
-      availableSpace = {row: selection.row -1, col: selection.column - 1}
-    }
-    if(selection.row - 1 === row && selection.column + 1 === col){
-      availableSpace = {row: selection.row -1, col: selection.column + 1}
-    }
-  } else if(selectedColor === "black") {
-    if(selection.row + 1 === row && selection.column - 1 === col){
-      availableSpace = {row: selection.row + 1, col: selection.column - 1}
-    }
-    if(selection.row + 1 === row && selection.column + 1 === col){
-      availableSpace = {row: selection.row + 1, col: selection.column + 1}
-    }
+  let availableSpace = checkColor("red", -1, row, col, selection, selectedColor, currentBoard)
+  if(!availableSpace){
+    availableSpace = checkColor("black", +1, row, col, selection, selectedColor, currentBoard)
   }
+
   if(availableSpace){
     if(!currentBoard[availableSpace.row][availableSpace.col]){
       return availableSpace
     }
   }
+}
+
+function checkColor(color, vertDiff, row, col, selection, selectedColor, currentBoard){
+  let availableSpace = null;
+  if(selectedColor === color){
+    if(selection.row + vertDiff === row && selection.column - 1 === col){
+      availableSpace = {row: selection.row + vertDiff, col: selection.column - 1}
+    }
+    if(selection.row + vertDiff === row && selection.column + 1 === col){
+      availableSpace = {row: selection.row +vertDiff, col: selection.column + 1}
+    }
+  }
+  return availableSpace
 }
 
 function diagonalPlusTwo(row, col, selection, selectedColor, currentBoard){
