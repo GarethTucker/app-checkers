@@ -54,19 +54,6 @@ function getMode(row, col, selection, currentColor, currentBoard){
   return "DEFAULT";
 }
 
-// function simpleMove(row, col, selection, currentColor, currentBoard){
-//   let selectedColor = currentBoard[selection.row][selection.column]
-//   let availableSpace = diagonalPlusOne(row, col, selection, selectedColor, currentBoard)
-  // if(!availableSpace){
-  //   availableSpace = diagonalPlusTwo(row, col, selection, selectedColor, currentBoard)
-  // }
-  // if(availableSpace){
-  //   if(!currentBoard[availableSpace.row][availableSpace.col]){
-  //     return true
-  //   }
-  // }
-// }
-
 function diagonalPlusOne(row, col, selection, selectedColor, currentBoard){
   let availableSpace = null;
   if(selectedColor === "red"){
@@ -89,7 +76,6 @@ function diagonalPlusOne(row, col, selection, selectedColor, currentBoard){
       return availableSpace
     }
   }
-  // return availableSpace
 }
 
 function diagonalPlusTwo(row, col, selection, selectedColor, currentBoard){
@@ -114,5 +100,9 @@ function diagonalPlusTwo(row, col, selection, selectedColor, currentBoard){
       availableSpace = {row: selection.row + 2, col: selection.column + 2}
     }
   }
-  return availableSpace
+  if(availableSpace){
+    if(!currentBoard[availableSpace.row][availableSpace.col]){
+      return availableSpace
+    }
+  }
 }
