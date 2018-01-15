@@ -6,6 +6,8 @@ export default function(state=null, action){
             return null
         case "MOVE_TO":
             return null
+        case "CAPTURE":
+            return null
         default:
             return state
     }
