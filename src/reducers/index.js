@@ -42,6 +42,12 @@ function getMode(row, col, selection, currentColor, currentBoard){
       return "SELECTED"
     } 
     let selectedColor = currentBoard[selection.row][selection.column]
+    if(selection.row === 0 && selectedColor === "red"){
+      return "KING_RED"
+    }
+    if(selection.row === 7 && selectedColor === "black"){
+      return "KING_BLACK"
+    }
     const simpleMove = diagonalPlusOne(row, col, selection, selectedColor, currentBoard)
     if (simpleMove) {
       return "AVAILABLE_SIMPLE"
@@ -82,10 +88,6 @@ function checkColor(color, vertDiff, row, col, selection, selectedColor, current
 
 function diagonalPlusTwo(row, col, selection, selectedColor, currentBoard){
   let availableSpace = null;
-
-  // Check ends of board
-  if(selection.row === 0 && selectedColor === "red") return;
-  if(selection.row === 7 && selectedColor === "black") return;
   
   if(selectedColor === "red" && currentBoard[selection.row - 1][selection.column - 1] === "black"){
     if(selection.row - 2 === row && selection.column - 2 === col) {

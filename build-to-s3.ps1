@@ -1,1 +1,2 @@
-npm run build && aws s3 sync build/ s3://www.garethtucker.net
+npm run build
+aws s3 sync build/ s3://www.garethtucker.net
