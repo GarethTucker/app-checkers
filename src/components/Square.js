@@ -38,6 +38,10 @@ export default (props) => {
       imageSrc = "https://lh5.ggpht.com/K3F-iniKTYk-ZZZI6I2UWe64TqBQrjDEtlqTqu87d6xk7rJvX6ZMcXWa1NSRl7TSAw=w300"
     } else if (color === "red"){
       imageSrc = "http://bristle.com/~michael/red-checker.png"  
+    } else if (color === "black-king"){
+      imageSrc = "http://www.charbase.com/images/glyph/9923"
+    } else if (color === "red-king"){
+        imageSrc = "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Draughts_kdt45.svg/2000px-Draughts_kdt45.svg.png"
     }
     return <button 
       className="square" 

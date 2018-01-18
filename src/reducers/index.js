@@ -82,6 +82,11 @@ function checkColor(color, vertDiff, row, col, selection, selectedColor, current
 
 function diagonalPlusTwo(row, col, selection, selectedColor, currentBoard){
   let availableSpace = null;
+
+  // Check ends of board
+  if(selection.row === 0 && selectedColor === "red") return;
+  if(selection.row === 7 && selectedColor === "black") return;
+  
   if(selectedColor === "red" && currentBoard[selection.row - 1][selection.column - 1] === "black"){
     if(selection.row - 2 === row && selection.column - 2 === col) {
       availableSpace = {row: selection.row - 2, col: selection.column - 2}
