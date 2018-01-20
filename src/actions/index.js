@@ -9,10 +9,10 @@ export const selectSquare = (i,j) => {
     }
 };
 
-export const moveTo = (i,j) => {
+export const moveTo = (row,column) => {
     let payload = {
-                row: i,
-                column: j
+                row: row,
+                column: column
               }
     return{
         type: "MOVE_TO",

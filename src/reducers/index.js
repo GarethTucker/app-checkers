@@ -25,7 +25,7 @@ export const getBoardExtended = (state) => {
     const rowArray = []
     for(let col=0; col<8; col++){
       let currentColor = state.board[row][col]
-      let currentMode = getMode(row, col, state.selection, currentColor, state.board)
+      let currentMode = getMode(row, col, state.selection, state.board)
       rowArray.push({
         color: currentColor,
         mode: currentMode
@@ -36,28 +36,64 @@ export const getBoardExtended = (state) => {
   return grid
 }
 
-function getMode(row, col, selection, currentColor, currentBoard){
+function getColor(row, col, currentBoard){
+  let color = currentBoard[row][col]
+
+  if(row === 0 && color === "red"){
+    return "red-king"
+  }
+  if(row === 7 && color === "black"){
+    return "black-king"
+  }  
+  return color
+}
+
+function getMode(row, column, selection, currentBoard){
   if(selection){
-    if(selection.row === row && selection.column === col){
+    if(selection.row === row && selection.column === column){
       return "SELECTED"
     } 
     let selectedColor = currentBoard[selection.row][selection.column]
-    if(selection.row === 0 && selectedColor === "red"){
-      return "KING_RED"
-    }
-    if(selection.row === 7 && selectedColor === "black"){
-      return "KING_BLACK"
-    }
-    const simpleMove = diagonalPlusOne(row, col, selection, selectedColor, currentBoard)
-    if (simpleMove) {
+
+    let goingUp = selectedColor=== "red" || selectedColor === "black-king"
+    let leftOfSelection = getLeft(selection.row, selection.column, goingUp, currentBoard)
+    let rightOfSelection = getRight(selection.row, selection.column, goingUp, currentBoard)
+
+    if (leftOfSelection.row === row && leftOfSelection.column === column && leftOfSelection.color === null) {
       return "AVAILABLE_SIMPLE"
     }
-    const capture = diagonalPlusTwo(row, col, selection, selectedColor, currentBoard)
+    if (rightOfSelection.row === row && rightOfSelection.column === column && rightOfSelection.color === null) {
+      return "AVAILABLE_SIMPLE"
+    }
+
+    // const simpleMove = diagonalPlusOne(row, column, selection, selectedColor, currentBoard)
+    // if(simpleMove){
+    //   return "AVAILABLE_SIMPLE"
+    // }
+    const capture = diagonalPlusTwo(row, column, selection, selectedColor, currentBoard)
     if (capture){
       return "AVAILABLE_CAPTURE"
     }
   }
   return "DEFAULT";
+}
+
+function getLeft(row, col, goingUp, currentBoard){
+  if(goingUp){
+    return {row: row-1, column:col-1, color: currentBoard[row-1][col-1]}
+  }
+  else{
+    return {row: row+1, column:col+1, color: currentBoard[row+1][col+1]}
+  }
+}
+
+function getRight(row, col, goingUp, currentBoard, color){
+  if(goingUp){
+    return {row: row-1, column:col+1, color: currentBoard[row-1][col+1]}
+  }
+  else{
+    return {row: row+1, column:col-1, color: currentBoard[row+1][col-1]}
+  }
 }
 
 function diagonalPlusOne(row, col, selection, selectedColor, currentBoard){
