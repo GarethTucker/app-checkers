@@ -20,12 +20,14 @@ const gameReducer = (state = {}, action) => {
 export default gameReducer;
 
 export const getBoardExtended = (state) => {
+  let availableMoves = getAvailableMoves(state)
+  
   const grid = []
   for(let row=0; row<8; row++){
     const rowArray = []
     for(let col=0; col<8; col++){
       let currentColor = state.board[row][col]
-      let currentMode = getMode(row, col, state.selection, state.board)
+      let currentMode = getMode(row, col, availableMoves)
       rowArray.push({
         color: currentColor,
         mode: currentMode
@@ -36,62 +38,75 @@ export const getBoardExtended = (state) => {
   return grid
 }
 
-function getColor(row, col, currentBoard){
-  let color = currentBoard[row][col]
-
-  if(row === 0 && color === "red"){
-    return "red-king"
-  }
-  if(row === 7 && color === "black"){
-    return "black-king"
+function getAvailableMoves({selection, board}){
+  let availableMoves = []
+  if(selection && board[selection.row][selection.column]){
+    availableMoves.push({row: selection.row, column: selection.column, mode: "SELECTED"})
+    let selectedColor = board[selection.row][selection.column]
+  
+    let goingUp = selectedColor=== "red" || selectedColor === "black-king"
+    let simpleMoveLeft = getLeft(selection.row, selection.column, goingUp, board)
+    let simpleMoveRight = getRight(selection.row, selection.column, goingUp, board)
+    let noCaptureAvailable = true
+    let oppositeColor = getOppositeColor(selectedColor)
+    if(simpleMoveLeft.color === oppositeColor){
+      let jumpLeft = getLeft(simpleMoveLeft.row, simpleMoveLeft.column, goingUp, board)
+      if(jumpLeft && jumpLeft.color === null){
+        noCaptureAvailable = false
+        availableMoves.push({row: jumpLeft.row, column: jumpLeft.column, mode: "AVAILABLE_CAPTURE"})
+      }
+    }
+    if(simpleMoveRight.color === oppositeColor){
+      let jumpRight = getRight(simpleMoveRight.row, simpleMoveRight.column, goingUp, board)
+      if(jumpRight && jumpRight.color === null){
+        noCaptureAvailable = false
+        availableMoves.push({row: jumpRight.row, column: jumpRight.column, mode: "AVAILABLE_CAPTURE"})
+      }
+    }
+    if(noCaptureAvailable){
+      if(simpleMoveLeft.color === null){
+        availableMoves.push({row: simpleMoveLeft.row, column: simpleMoveLeft.column, mode: "AVAILABLE_SIMPLE"})
+      }
+      if(simpleMoveRight.color === null){
+        availableMoves.push({row: simpleMoveRight.row, column: simpleMoveRight.column, mode: "AVAILABLE_SIMPLE"})
+      }
+    }
   }  
-  return color
+  return availableMoves
 }
 
-function getMode(row, column, selection, currentBoard){
-  if(selection){
-    if(selection.row === row && selection.column === column){
-      return "SELECTED"
-    } 
-    let selectedColor = currentBoard[selection.row][selection.column]
+function getOppositeColor(color){
+  if(color === "red"){
+    return "black"
+  }
+  if(color === "black"){
+    return "red"
+  }
+}
 
-    let goingUp = selectedColor=== "red" || selectedColor === "black-king"
-    let leftOfSelection = getLeft(selection.row, selection.column, goingUp, currentBoard)
-    let rightOfSelection = getRight(selection.row, selection.column, goingUp, currentBoard)
-
-    if (leftOfSelection.row === row && leftOfSelection.column === column && leftOfSelection.color === null) {
-      return "AVAILABLE_SIMPLE"
-    }
-    if (rightOfSelection.row === row && rightOfSelection.column === column && rightOfSelection.color === null) {
-      return "AVAILABLE_SIMPLE"
-    }
-
-    // const simpleMove = diagonalPlusOne(row, column, selection, selectedColor, currentBoard)
-    // if(simpleMove){
-    //   return "AVAILABLE_SIMPLE"
-    // }
-    const capture = diagonalPlusTwo(row, column, selection, selectedColor, currentBoard)
-    if (capture){
-      return "AVAILABLE_CAPTURE"
+function getMode(row, column, availableMoves){
+  for(let current of availableMoves){
+    if(current.row === row && current.column === column){
+      return current.mode
     }
   }
   return "DEFAULT";
 }
 
 function getLeft(row, col, goingUp, currentBoard){
-  if(goingUp){
+  if(goingUp && currentBoard[row-1]){
     return {row: row-1, column:col-1, color: currentBoard[row-1][col-1]}
   }
-  else{
+  else if(currentBoard[row+1]){
     return {row: row+1, column:col+1, color: currentBoard[row+1][col+1]}
   }
 }
 
 function getRight(row, col, goingUp, currentBoard, color){
-  if(goingUp){
+  if(goingUp && currentBoard[row-1]){
     return {row: row-1, column:col+1, color: currentBoard[row-1][col+1]}
   }
-  else{
+  else if(currentBoard[row+1]){
     return {row: row+1, column:col-1, color: currentBoard[row+1][col-1]}
   }
 }
@@ -120,34 +135,4 @@ function checkColor(color, vertDiff, row, col, selection, selectedColor, current
     }
   }
   return availableSpace
-}
-
-function diagonalPlusTwo(row, col, selection, selectedColor, currentBoard){
-  let availableSpace = null;
-  
-  if(selectedColor === "red" && currentBoard[selection.row - 1][selection.column - 1] === "black"){
-    if(selection.row - 2 === row && selection.column - 2 === col) {
-      availableSpace = {row: selection.row - 2, col: selection.column - 2}
-    }
-  }
-  if(selectedColor === "red" && currentBoard[selection.row - 1][selection.column + 1] === "black"){
-    if(selection.row - 2 === row && selection.column + 2 === col) {
-      availableSpace = {row: selection.row - 2, col: selection.column + 2}
-    }
-  }
-  if(selectedColor === "black" && currentBoard[selection.row + 1][selection.column - 1] === "red"){
-    if(selection.row + 2 === row && selection.column - 2 === col) {
-      availableSpace = {row: selection.row + 2, col: selection.column - 2}
-    }
-  }
-  if(selectedColor === "black" && currentBoard[selection.row + 1][selection.column + 1] === "red"){
-    if(selection.row + 2 === row && selection.column + 2 === col) {
-      availableSpace = {row: selection.row + 2, col: selection.column + 2}
-    }
-  }
-  if(availableSpace){
-    if(!currentBoard[availableSpace.row][availableSpace.col]){
-      return availableSpace
-    }
-  }
 }
