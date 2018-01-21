@@ -21,13 +21,14 @@ export default gameReducer;
 
 export const getBoardExtended = (state) => {
   let availableMoves = getAvailableMoves(state)
+  let filteredMoves = filterMoves(availableMoves)
   
   const grid = []
   for(let row=0; row<8; row++){
     const rowArray = []
     for(let col=0; col<8; col++){
       let currentColor = state.board[row][col]
-      let currentMode = getMode(row, col, availableMoves)
+      let currentMode = getMode(row, col, filteredMoves)
       rowArray.push({
         color: currentColor,
         mode: currentMode
@@ -38,15 +39,33 @@ export const getBoardExtended = (state) => {
   return grid
 }
 
+function filterMoves(availableMoves){
+  let filteredMoves = []
+  let captureAvailable = false
+  // check if there is a possiblity to take a piece and add those moves
+  for(let move of availableMoves){
+    if(move.mode === "AVAILABLE_CAPTURE"){
+      captureAvailable = true
+      filteredMoves.push(move)
+    }
+  }
+  // if there is not capture avaiable add the simple moves
+  if(!captureAvailable){
+    filteredMoves.push(...availableMoves)
+  }
+  return filteredMoves
+}
+
 function getAvailableMoves({selection, board}){
   let availableMoves = []
   if(selection && board[selection.row][selection.column]){
     availableMoves.push({row: selection.row, column: selection.column, mode: "SELECTED"})
     let selectedColor = board[selection.row][selection.column]
-  
+    // get the moves avaialbe in the normal direction
     let goingUp = selectedColor=== "red" || selectedColor === "black-king"
-    let basicMoves = getBasicMoves(selection, goingUp, board, selectedColor)
+    var basicMoves = getBasicMoves(selection, goingUp, board, selectedColor)
     availableMoves.push(...basicMoves)
+    // get the extra moves avaiable the other direction if a king is selected
     if(selectedColor === "black-king" || selectedColor === "red-king"){
       basicMoves = getBasicMoves(selection, !goingUp, board, selectedColor)
       availableMoves.push(...basicMoves)
@@ -56,36 +75,31 @@ function getAvailableMoves({selection, board}){
 }
 
 function getBasicMoves(selection, goingUp, board, selectedColor){
-  let availableMoves = []
+  let basicMoves = []
   let simpleMoveLeft = getLeft(selection.row, selection.column, goingUp, board)
   let simpleMoveRight = getRight(selection.row, selection.column, goingUp, board)
-  let noCaptureAvailable = true
   let oppositeColor = getOppositeColor(selectedColor)
 
-  if(oppositeColor.includes(simpleMoveLeft.color)){
+  if(simpleMoveLeft && oppositeColor.includes(simpleMoveLeft.color)){
     let jumpLeft = getLeft(simpleMoveLeft.row, simpleMoveLeft.column, goingUp, board)
     if(jumpLeft && jumpLeft.color === null){
-      noCaptureAvailable = false
-      availableMoves.push({row: jumpLeft.row, column: jumpLeft.column, mode: "AVAILABLE_CAPTURE"})
+      basicMoves.push({row: jumpLeft.row, column: jumpLeft.column, mode: "AVAILABLE_CAPTURE"})
     }
   }
-  if(oppositeColor.includes(simpleMoveRight.color)){
+  if(simpleMoveRight && oppositeColor.includes(simpleMoveRight.color)){
     let jumpRight = getRight(simpleMoveRight.row, simpleMoveRight.column, goingUp, board)
     if(jumpRight && jumpRight.color === null){
-      noCaptureAvailable = false
-      availableMoves.push({row: jumpRight.row, column: jumpRight.column, mode: "AVAILABLE_CAPTURE"})
+      basicMoves.push({row: jumpRight.row, column: jumpRight.column, mode: "AVAILABLE_CAPTURE"})
     }
   }
-  if(noCaptureAvailable){
-    if(simpleMoveLeft.color === null){
-      availableMoves.push({row: simpleMoveLeft.row, column: simpleMoveLeft.column, mode: "AVAILABLE_SIMPLE"})
-    }
-    if(simpleMoveRight.color === null){
-      availableMoves.push({row: simpleMoveRight.row, column: simpleMoveRight.column, mode: "AVAILABLE_SIMPLE"})
-    }
+  if(simpleMoveLeft && simpleMoveLeft.color === null){
+    basicMoves.push({row: simpleMoveLeft.row, column: simpleMoveLeft.column, mode: "AVAILABLE_SIMPLE"})
+  }
+  if(simpleMoveRight && simpleMoveRight.color === null){
+    basicMoves.push({row: simpleMoveRight.row, column: simpleMoveRight.column, mode: "AVAILABLE_SIMPLE"})
   }
 
-  return availableMoves
+  return basicMoves
 }
 
 function getOppositeColor(color){
