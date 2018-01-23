@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 const currentTurnText = (props) => {
-    return <h1>{props.currentTurn}</h1>
+    return <h2 align="left">{props.currentTurn}</h2>
 }
 
 function mapStateToProps(state) {
