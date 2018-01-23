@@ -42,18 +42,18 @@ export const getBoardExtended = (state) => {
 }
 
 function getMode(row, column, availableMoves, currentColor, currentTurn){
-  for(let current of availableMoves){
-    if(current.row === row && current.column === column){
-      return current.mode
+  for(let availableMove of availableMoves){
+    if(availableMove.row === row && availableMove.column === column){
+      return availableMove.mode
     }
   }
-  if(currentColorIsCurrentTurn(currentColor, currentTurn)){
+  if(isCurrentColorCurrentTurn(currentColor, currentTurn)){
     return currentColor
   }
   return "DEFAULT";
 }
 
-function currentColorIsCurrentTurn(currentColor, currentTurn){
+function isCurrentColorCurrentTurn(currentColor, currentTurn){
   if(currentColor === currentTurn){
     return true
   }
