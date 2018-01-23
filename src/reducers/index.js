@@ -2,11 +2,13 @@
 // import reduceReducers from 'reduce-reducers ';
 import selection from './selection';
 import board from './board';
+import currentTurn from './currentTurn';
 // import dummy from './dummy';
 
 const gameReducer = (state = {}, action) => {
   return {
     selection: selection(state.selection, action),
+    currentTurn: currentTurn(state.currentTurn, action),
     board: board(state.board, action, state.selection)
   }
 }
