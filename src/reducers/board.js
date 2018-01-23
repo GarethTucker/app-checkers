@@ -40,10 +40,10 @@ export default function(state=defaultState, {type, payload}, selection){
 function checkForKing(row, color){
 
   if(row === 0 && color === "red"){
-    return "red-king"
+    return "redKing"
   }
   if(row === 7 && color === "black"){
-    return "black-king"
+    return "blackKing"
   }  
   return color
 }

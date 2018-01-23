@@ -47,10 +47,22 @@ function getMode(row, column, availableMoves, currentColor, currentTurn){
       return current.mode
     }
   }
-  if(currentColor === currentTurn){
+  if(currentColorIsCurrentTurn(currentColor, currentTurn)){
     return currentColor
   }
   return "DEFAULT";
+}
+
+function currentColorIsCurrentTurn(currentColor, currentTurn){
+  if(currentColor === currentTurn){
+    return true
+  }
+  else if(currentColor === "redKing" && currentTurn === "red"){
+    return true
+  }
+  else if(currentColor === "blackKing" && currentTurn === "black"){
+    return true
+  }
 }
 
 function filterMoves(availableMoves){
@@ -77,11 +89,11 @@ function getAvailableMoves({selection, board}){
 
     let selectedColor = board[selection.row][selection.column]
     // get the moves avaialbe in the normal direction
-    let goingUp = selectedColor=== "red" || selectedColor === "black-king"
+    let goingUp = selectedColor=== "red" || selectedColor === "blackKing"
     var basicMoves = getBasicMoves(selection, goingUp, board, selectedColor)
     availableMoves.push(...basicMoves)
     // get the extra moves avaiable the other direction if a king is selected
-    if(selectedColor === "black-king" || selectedColor === "red-king"){
+    if(selectedColor === "blackKing" || selectedColor === "redKing"){
       basicMoves = getBasicMoves(selection, !goingUp, board, selectedColor)
       availableMoves.push(...basicMoves)
     }
@@ -118,11 +130,11 @@ function getBasicMoves(selection, goingUp, board, selectedColor){
 }
 
 function getOppositeColor(color){
-  if(color === "red" || color === "red-king"){
-    return ["black", "black-king"]
+  if(color === "red" || color === "redKing"){
+    return ["black", "blackKing"]
   }
-  if(color === "black" || color === "black-king"){
-    return ["red", "red-king"]
+  if(color === "black" || color === "blackKing"){
+    return ["red", "redKing"]
   }
 }
 

@@ -1,7 +1,7 @@
 export default function(state=null, currentTurn="red", action){
     switch(action.type){
         case "SELECT_SQUARE":
-            if(action.payload.color === currentTurn){
+            if(currentColorIsCurrentTurn(action.payload.color, currentTurn)){
                 return action.payload
             }
         case "DESELECT_SQUARE":
@@ -14,3 +14,15 @@ export default function(state=null, currentTurn="red", action){
             return state
     }
 }
+
+function currentColorIsCurrentTurn(currentColor, currentTurn){
+    if(currentColor === currentTurn){
+      return true
+    }
+    else if(currentColor === "redKing" && currentTurn === "red"){
+      return true
+    }
+    else if(currentColor === "blackKing" && currentTurn === "black"){
+      return true
+    }
+  }
