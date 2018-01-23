@@ -1,7 +1,9 @@
-export default function(state=null, action){
+export default function(state=null, currentTurn="red", action){
     switch(action.type){
         case "SELECT_SQUARE":
-            return action.payload
+            if(action.payload.color === currentTurn){
+                return action.payload
+            }
         case "DESELECT_SQUARE":
             return null
         case "MOVE_TO":

@@ -21,14 +21,15 @@ export default function(state=defaultState, {type, payload}, selection){
     case "MOVE_TO":
         let newState = [...state];
         let {row, column} = payload;
-        newState[row][column] = getNewColor(row, state[selection.row][selection.column]);
+        newState[row][column] = checkForKing(row, state[selection.row][selection.column]);
         newState[selection.row][selection.column] = null
         return newState;
       case "CAPTURE":
         newState = [...state];
         let {row1, column1} = payload;
-        newState[row1][column1] = getNewColor(row1, state[selection.row][selection.column]);
+        newState[row1][column1] = checkForKing(row1, state[selection.row][selection.column]);
         newState[selection.row][selection.column] = null
+        // Make the place you moved from null
         newState[(row1 + selection.row)/2][(column1 + selection.column)/2] = null
         return newState;
     default:
@@ -36,7 +37,7 @@ export default function(state=defaultState, {type, payload}, selection){
   }
 }
 
-function getNewColor(row, color){
+function checkForKing(row, color){
 
   if(row === 0 && color === "red"){
     return "red-king"

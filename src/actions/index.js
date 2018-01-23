@@ -1,7 +1,8 @@
-export const selectSquare = (row, column) => {
+export const selectSquare = (row, column, color) => {
     let payload = {
                 row: row,
-                column: column
+                column: column,
+                color: color
               }
     return{
         type: "SELECT_SQUARE",

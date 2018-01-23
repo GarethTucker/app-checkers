@@ -4,7 +4,11 @@ const boarderStyles = {
     SELECTED: '2px solid red',
     AVAILABLE_SIMPLE: '2px solid yellow',
     AVAILABLE_CAPTURE: '2px solid yellow',
-    DEFAULT: '2px solid black'
+    DEFAULT: '2px solid black',
+    red: '2px solid orange',
+    black: '2px solid orange',
+    'red-king': '2px solid orange',
+    'black-king': '2px solid orange'
 }
 
 function getStyle(row, col, mode){    
@@ -15,8 +19,8 @@ function getStyle(row, col, mode){
 }
 
 function createOnClick({row, col, selectSquare, deselectSquare, moveTo, capture, king}, mode){
-    if(mode === 'DEFAULT'){
-        return () => selectSquare(row, col)
+    if(mode === "red" || mode === "black" || mode === "red-king" || mode === "black-king"){
+        return () => selectSquare(row, col, mode)
     }
     if(mode === 'SELECTED'){
         return () => deselectSquare()

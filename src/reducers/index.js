@@ -7,7 +7,7 @@ import currentTurn from './currentTurn';
 
 const gameReducer = (state = {}, action) => {
   return {
-    selection: selection(state.selection, action),
+    selection: selection(state.selection, state.currentTurn, action),
     currentTurn: currentTurn(state.currentTurn, action),
     board: board(state.board, action, state.selection)
   }
@@ -30,7 +30,7 @@ export const getBoardExtended = (state) => {
     const rowArray = []
     for(let col=0; col<8; col++){
       let currentColor = state.board[row][col]
-      let currentMode = getMode(row, col, filteredMoves)
+      let currentMode = getMode(row, col, filteredMoves, currentColor, state.currentTurn)
       rowArray.push({
         color: currentColor,
         mode: currentMode
@@ -39,6 +39,18 @@ export const getBoardExtended = (state) => {
     grid.push(rowArray)
   }  
   return grid
+}
+
+function getMode(row, column, availableMoves, currentColor, currentTurn){
+  for(let current of availableMoves){
+    if(current.row === row && current.column === column){
+      return current.mode
+    }
+  }
+  if(currentColor === currentTurn){
+    return currentColor
+  }
+  return "DEFAULT";
 }
 
 function filterMoves(availableMoves){
@@ -62,6 +74,7 @@ function getAvailableMoves({selection, board}){
   let availableMoves = []
   if(selection && board[selection.row][selection.column]){
     availableMoves.push({row: selection.row, column: selection.column, mode: "SELECTED"})
+
     let selectedColor = board[selection.row][selection.column]
     // get the moves avaialbe in the normal direction
     let goingUp = selectedColor=== "red" || selectedColor === "black-king"
@@ -111,15 +124,6 @@ function getOppositeColor(color){
   if(color === "black" || color === "black-king"){
     return ["red", "red-king"]
   }
-}
-
-function getMode(row, column, availableMoves){
-  for(let current of availableMoves){
-    if(current.row === row && current.column === column){
-      return current.mode
-    }
-  }
-  return "DEFAULT";
 }
 
 function getLeft(row, col, goingUp, currentBoard){
