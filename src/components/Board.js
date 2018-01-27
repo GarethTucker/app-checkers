@@ -65,11 +65,28 @@ function mapStateToProps(state) {
     }
 }
 
-const mapDispatchToProps = {
-  selectSquare,
-  moveTo,
-  capture,
-  deselectSquare
+// const mapDispatchToProps = {
+//   selectSquare,
+//   moveTo,
+//   capture,
+//   deselectSquare
+// }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    selectSquare(row, column, color){
+      dispatch(selectSquare(row, column, color));
+    },
+    moveTo(row, column){
+      dispatch(moveTo(row, column));
+    },
+    capture(row, column){
+      dispatch(capture(row, column));
+    },
+    deselectSquare(){
+      dispatch(deselectSquare());
+    }
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Board);

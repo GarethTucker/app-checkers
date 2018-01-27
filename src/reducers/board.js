@@ -18,20 +18,22 @@ const defaultState = [
 
 export default function(state=defaultState, {type, payload}, selection){
   switch(type){
-    case "MOVE_TO":
+    case "MOVE_TO": {
         let newState = [...state];
         let {row, column} = payload;
         newState[row][column] = checkForKing(row, state[selection.row][selection.column]);
         newState[selection.row][selection.column] = null
         return newState;
-      case "CAPTURE":
-        newState = [...state];
-        let {row1, column1} = payload;
-        newState[row1][column1] = checkForKing(row1, state[selection.row][selection.column]);
+    }
+    case "CAPTURE": {
+        let newState = [...state];
+        let {row, column} = payload;
+        newState[row][column] = checkForKing(row, state[selection.row][selection.column]);
         newState[selection.row][selection.column] = null
         // Make the place you moved from null
-        newState[(row1 + selection.row)/2][(column1 + selection.column)/2] = null
+        newState[(row + selection.row)/2][(column + selection.column)/2] = null
         return newState;
+    }
     default:
         return state
   }

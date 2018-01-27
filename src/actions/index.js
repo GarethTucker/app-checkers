@@ -23,8 +23,8 @@ export const moveTo = (row,column) => {
 
 export const capture = (row, col) => {
     let payload = {
-                row1: row,
-                column1: col
+                row: row,
+                column: col
               }
     return{
         type: "CAPTURE",
